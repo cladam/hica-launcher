@@ -20,6 +20,11 @@ jobs:
         with:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
+      - name: Check excluded trademark assets
+        run: |
+          test ! -e docs/brand
+          test ! -e assets/app-icon
+          test ! -e assets/app-icons
       - name: Formatting
         run: cargo fmt --check
       - name: Type check
