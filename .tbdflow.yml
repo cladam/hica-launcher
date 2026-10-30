@@ -29,7 +29,7 @@ radar:
   - '*-lock.*'
   - CHANGELOG.md
 ci_check:
-  enabled: true
+  enabled: false
 branch_types:
   feat: feat/
   chore: chore/

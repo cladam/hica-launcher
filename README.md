@@ -1,44 +1,16 @@
-# Hica Launcher
+# hica-launcher
 
-A native Rust/egui desktop hub for applications in the hica ecosystem. 
+Hica Launcher is a Hica project. The current starter prints a greeting; it
+does not yet provide a graphical launcher. The planned UI uses ImGui, not Rust
+or egui. See `docs/PRD-hica-launcher.md` if you have the local product
+requirements document.
 
-The first slice provides a grid and sortable table of hica applications and
-checks the latest GitHub release for each entry. **Installation, downloads,
-updates, launching, and tray operation are not implemented yet.** The app
-links to release pages but does not execute downloaded software.
-
-## Add applications
-
-Edit `catalogue.json` and rebuild. The catalogue is embedded in the binary:
-
-```json
-{
-  "apps": [
-    {
-      "name": "Your App",
-      "repo": "your-github-owner/your-app",
-      "description": "A short description"
-    }
-  ]
-}
-```
-
-Only compiled user-facing applications with GitHub releases belong in this
-catalog; hica libraries are managed separately. The repository starts with an
-empty catalog until real hica application repositories are chosen. GitHub
-release errors are displayed per app instead of being treated as versions.
-
-## Development
-
-Requires Rust 1.95 or newer.
+## Usage
 
 ```sh
-cargo run
-cargo fmt --check
-cargo check --locked --all-targets
-cargo test --locked
-cargo clippy --locked --all-targets -- -D warnings
+hica build   # compile to binary
+hica run     # compile and run
+hica fmt     # format according to hica style guide
+hica check   # type-check without emitting
+hica clean   # remove generated files
 ```
-
-The PRD and development plan under `docs/` are excluded from version control
-by the local `.gitignore`.
