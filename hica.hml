@@ -6,6 +6,8 @@
 }
 
 @dependencies {
+    imgui: "latest"
+    hml: "latest"
 }
 
 @description {
@@ -13,4 +15,9 @@
     author: "cladam"
     homepage: "https://www.hica.dev"
     repository: "https://github.com/cladam/hica-launcher"
+}
+
+@koka {
+    include: "src"
+    flags: "--cclinkopts=-Llib --cclinkopts=-L/opt/homebrew/opt/sdl2/lib --cclinkopts=-limgui_hica --cclinkopts=-lSDL2 --cclinkopts=-lc++ --cclinkopts=-framework --cclinkopts=OpenGL"
 }
