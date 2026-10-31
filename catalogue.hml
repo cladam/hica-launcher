@@ -1,2 +1,5 @@
-// Curated Hica applications. No entries have been confirmed yet.
-// Each @app body requires name, repo (GitHub owner/repo), and description.
+@app {
+	name: "tbdflow-ui"
+	repo: "cladam/tbdflow-ui"
+	description: "UI for tbdflow, built in hica with imgui. tbdflow is a command-line tool designed to streamline and safeguard your Git workflow for Trunk-Based Development."
+}

@@ -45,31 +45,22 @@ pub fun catalogue_fields_valid(nodes: list<HmlNode>, seen: list<string>) {
   }
 }
 
-pub fun catalogue_decode_app(body: list<HmlNode>) {
-  match catalogue_fields_valid(body, []) {
-    Err(message) => Err(message),
-    Ok(_) => {
-      match as_str(hml_get(body, "name")) {
-        None => Err("App is missing name"),
-        Some(name) => {
-          match as_str(hml_get(body, "repo")) {
-            None => Err("App is missing repo: " + name),
-            Some(repo) => {
-              match as_str(hml_get(body, "description")) {
-                None => Err("App is missing description: " + name),
-                Some(description) => {
-                  if catalogue_repo_valid(repo) {
-                    Ok(CatalogueApp { name: name, repo: repo, description: description })
-                  } else {
-                    Err("Invalid GitHub owner/repo: " + repo)
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+pub fun catalogue_required_string(body: list<HmlNode>, key: string, context: string) {
+  match as_str(hml_get(body, key)) {
+    None => Err("App is missing " + key + context),
+    Some(text) => Ok(text)
+  }
+}
+
+pub fun catalogue_decode_app(body: list<HmlNode>) : result<CatalogueApp, string> {
+  let validated = catalogue_fields_valid(body, [])?
+  let name = catalogue_required_string(body, "name", "")?
+  let repo = catalogue_required_string(body, "repo", ": " + name)?
+  let description = catalogue_required_string(body, "description", ": " + name)?
+  if catalogue_repo_valid(repo) {
+    Ok(CatalogueApp { name: name, repo: repo, description: description })
+  } else {
+    Err("Invalid GitHub owner/repo: " + repo)
   }
 }
 

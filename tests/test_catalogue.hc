@@ -81,3 +81,23 @@ test "duplicate app fields are rejected" {
 test "invalid HML reports an error" {
   assert(catalogue_rejected("@app \{", "Invalid catalogue HML"))
 }
+
+test "missing fields preserve application context" {
+  let parsed = catalogue_parse("@app \{\nname: \"tbdflow-ui\"\ndescription: \"Test\"\n\}")
+  let contextual = match parsed {
+    Err(message) => message == "App is missing repo: tbdflow-ui",
+    Ok(_) => false
+  }
+  assert(contextual)
+}
+
+test "supplied tbdflow-ui entry decodes" {
+  let expected_description = "UI for tbdflow, built in hica with imgui. tbdflow is a command-line tool designed to streamline and safeguard your Git workflow for Trunk-Based Development."
+  let content = "@app \{\nname: \"tbdflow-ui\"\nrepo: \"cladam/tbdflow-ui\"\ndescription: \"" + expected_description + "\"\n\}"
+  let parsed = catalogue_parse(content)
+  let valid = match parsed {
+    Ok([app]) => app.name == "tbdflow-ui" && app.repo == "cladam/tbdflow-ui" && app.description == expected_description,
+    _ => false
+  }
+  assert(valid)
+}
